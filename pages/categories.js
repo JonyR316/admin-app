@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function Categories() {
+  const [editedCategory, setEditedCategory] = useState(null);
   const [name, setName] = useState("");
   const [parentCategory, setParentCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -16,16 +17,32 @@ export default function Categories() {
   }
   async function saveCategory(ev) {
     ev.preventDefault();
-    await axios.post("/api/categories", { name, parentCategory });
+    const data = { name, parentCategory };
+    if (editedCategory) {
+      data._id = editedCategory._id;
+      await axios.put("/api/categories", data);
+    } else {
+      await axios.post("/api/categories", data);
+    }
+
     setName("");
     fetchCategories();
+  }
+  function editCategory(category) {
+    setEditedCategory(category);
+    setName(category.name);
+    setParentCategory(category.parent?._id);
   }
   return (
     <Layout>
       <h1>
         <b>CATEGORIAS</b>
       </h1>
-      <label>NUEVA CATEGORIA</label>
+      <label>
+        {editedCategory
+          ? `EDITAR CATEGORIA ${editedCategory.name}`
+          : "CREAR NUEVA CATEGORIA"}
+      </label>
       <form onSubmit={saveCategory} className="flex gap-1">
         <input
           className="mb-0"
@@ -87,7 +104,12 @@ export default function Categories() {
                 <td>{category.name}</td>
                 <td>{category?.parent?.name}</td>
                 <td>
-                  <button className="btn-primary mr-1">EDITAR</button>
+                  <button
+                    onClick={() => editCategory(category)}
+                    className="btn-primary mr-1"
+                  >
+                    EDITAR
+                  </button>
                   <button className="btn-primary">ELIMINAR</button>
                 </td>
               </tr>
