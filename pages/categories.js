@@ -9,17 +9,27 @@ function Categories({ swal }) {
   const [parentCategory, setParentCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [properties, setProperties] = useState([]);
+
   useEffect(() => {
     fetchCategories();
   }, []);
+
   function fetchCategories() {
     axios.get("/api/categories").then((result) => {
       setCategories(result.data);
     });
   }
+
   async function saveCategory(ev) {
     ev.preventDefault();
-    const data = { name, parentCategory };
+    const data = {
+      name,
+      parentCategory,
+      properties: properties.map((p) => ({
+        name: p.name,
+        values: p.values.split(","),
+      })),
+    };
     if (editedCategory) {
       data._id = editedCategory._id;
       await axios.put("/api/categories", data);
@@ -29,13 +39,23 @@ function Categories({ swal }) {
     }
 
     setName("");
+    setParentCategory("");
+    setProperties([]);
     fetchCategories();
   }
+
   function editCategory(category) {
     setEditedCategory(category);
     setName(category.name);
     setParentCategory(category.parent?._id);
+    setProperties(
+      category.properties.map(({ name, values }) => ({
+        name,
+        values: values.join(","),
+      }))
+    );
   }
+
   function deleteCategory(category) {
     swal
       .fire({
@@ -156,9 +176,25 @@ function Categories({ swal }) {
               </div>
             ))}
         </div>
-        <button type="submit" className="btn-primary py-1">
-          GUARDAR
-        </button>
+        <div className="flex gap-1">
+          {editedCategory && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditedCategory(null);
+                setName("");
+                setParentCategory("");
+                setProperties([]);
+              }}
+              className="btn-default"
+            >
+              CANCELAR
+            </button>
+          )}
+          <button type="submit" className="btn-primary py-1">
+            GUARDAR
+          </button>
+        </div>
       </form>
       {!editedCategory && (
         <table className="basic mt-4">
