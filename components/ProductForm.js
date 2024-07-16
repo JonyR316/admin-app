@@ -109,16 +109,18 @@ export default function ProductForm({
       </select>
       {propertiesToFill.length > 0 &&
         propertiesToFill.map((p) => (
-          <div className="flex gap-1">
-            <div>{p.name}</div>
-            <select
-              value={productProperties[p.name]}
-              onChange={(ev) => setProductProp(p.name, ev.target.value)}
-            >
-              {p.values.map((v) => (
-                <option value={v}>{v}</option>
-              ))}
-            </select>
+          <div className="">
+            <label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+            <div>
+              <select
+                value={productProperties[p.name]}
+                onChange={(ev) => setProductProp(p.name, ev.target.value)}
+              >
+                {p.values.map((v) => (
+                  <option value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
           </div>
         ))}
       <label>IMAGENES</label>
@@ -130,7 +132,11 @@ export default function ProductForm({
         >
           {!!images?.length &&
             images.map((link) => (
-              <div key={link} className="h-24">
+              <div
+                key={link}
+                className="h-24 bg-white p-4 shadow-md rounded-sm
+                border border-gray-400"
+              >
                 <img src={link} alt="" className="rounded-lg" />
               </div>
             ))}
@@ -140,7 +146,12 @@ export default function ProductForm({
             <Spinner />
           </div>
         )}
-        <label className="w-24 h-24 cursor-pointer text-center flex items-center justify-center text-sm gap-1 text-gray-900 rounded-lg bg-gray-300">
+        <label
+          className="w-24 h-24 cursor-pointer text-center 
+        flex flex-col items-center justify-center text-sm gap-1 
+        text-primary rounded-lg bg-gray-200 shadow-md border 
+        border-primary"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -155,7 +166,7 @@ export default function ProductForm({
               d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75"
             />
           </svg>
-          <div>CARGAR</div>
+          <div>CARGAR IMAGENES</div>
           <input type="file" onChange={uploadImages} className="hidden" />
         </label>
       </div>

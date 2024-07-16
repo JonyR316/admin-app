@@ -214,7 +214,7 @@ function Categories({ swal }) {
                 <button
                   onClick={() => removeProperty(index)}
                   type="button"
-                  className="btn-default flex gap-1"
+                  className="btn-red flex gap-1"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -323,9 +323,9 @@ function Categories({ swal }) {
                   <td>
                     <button
                       onClick={() => editCategory(category)}
-                      className="btn-primary mr-1 rounded-md py-1 px-2 "
+                      className="btn-default mr-1 rounded-md py-1 px-2"
                     >
-                      <div className="flex gap-1">
+                      <div className="flex gap-1 items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -345,9 +345,9 @@ function Categories({ swal }) {
                     </button>
                     <button
                       onClick={() => deleteCategory(category)}
-                      className="btn-primary"
+                      className="btn-red"
                     >
-                      <div className="flex gap-1">
+                      <div className="flex gap-1 items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
