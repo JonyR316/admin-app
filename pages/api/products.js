@@ -1,10 +1,10 @@
-import { Product } from "@/models/Product";
 import { mongooseConnect } from "@/lib/mongoose";
-import { getServerSession } from "next-auth";
-import { authOptions, isAdminRequest } from "./auth/[...nextauth]";
+import { Product } from "@/models/Product";
+import { isAdminRequest } from "./auth/[...nextauth]";
 
-export default async function handle(req, res) {
+export default async function handler(req, res) {
   const { method } = req;
+
   await mongooseConnect();
   await isAdminRequest(req, res);
 
@@ -16,34 +16,61 @@ export default async function handle(req, res) {
     }
   }
 
+  if (method === "GET") {
+    const { category } = req.query;
+    const filters = category ? { category } : {};
+
+    try {
+      const products = await Product.find(filters);
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching products" });
+    }
+  }
+
   if (method === "POST") {
     const { title, descripcion, precio, images, category, properties } =
       req.body;
-    const productDoc = await Product.create({
-      title,
-      descripcion,
-      precio,
-      images,
-      category,
-      properties,
-    });
-    res.json(productDoc);
+    try {
+      const productDoc = await Product.create({
+        title,
+        descripcion,
+        precio,
+        images,
+        category,
+        properties,
+      });
+      res.status(201).json(productDoc);
+    } catch (error) {
+      res.status(500).json({ message: "Error creating product" });
+    }
   }
 
   if (method === "PUT") {
     const { title, descripcion, precio, images, category, properties, _id } =
       req.body;
-    await Product.updateOne(
-      { _id },
-      { title, descripcion, precio, images, category, properties }
-    );
-    res.json(true);
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        _id,
+        { title, descripcion, precio, images, category, properties },
+        { new: true, runValidators: true }
+      );
+      res.status(200).json(updatedProduct);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating product" });
+    }
   }
 
   if (method === "DELETE") {
     if (req.query?.id) {
-      await Product.deleteOne({ _id: req.query?.id });
-      res.json(true);
+      try {
+        await Product.deleteOne({ _id: req.query?.id });
+        res.status(200).json({ message: "Product deleted" });
+      } catch (error) {
+        res.status(500).json({ message: "Error deleting product" });
+      }
+    } else {
+      res.status(400).json({ message: "Product ID is required" });
     }
   }
 }
