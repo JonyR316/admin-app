@@ -15,7 +15,7 @@ export default function OrdersPage() {
       <table className="basic">
         <thead>
           <tr>
-            <th>DATE</th>
+            <th>FECHA</th>
             <th>CONFIRMADO</th>
             <th>RECIPIENTE</th>
             <th>PRODUCTOS</th>

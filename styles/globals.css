@@ -51,3 +51,22 @@ table.basic a {
 .btn-default {
   @apply bg-white text-gray-800 px-4 py-1 rounded-md border border-gray-400 shadow-md;
 }
+
+.basic {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.basic th,
+.basic td {
+  padding: 10px;
+  border: 1px solid #aaa;
+}
+
+.basic tr {
+  border-bottom: 1px solid #ddd; /* Línea separadora debajo de cada fila */
+}
+
+.basic tr:last-child {
+  border-bottom: none; /* Quitar la línea separadora de la última fila */
+}
