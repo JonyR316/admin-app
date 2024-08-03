@@ -32,9 +32,9 @@ export default function OrdersPage() {
                   {order.paid ? "SI" : "SI"}
                 </td>
                 <td>
-                  {order.name} {order.email} {order.phone}
-                  {order.local} {order.city} {order.address}
-                  {order.main} {order.secondary}
+                  {order.name} / {order.email} / {order.phone} /{order.local} /{" "}
+                  {order.city} / {order.address} /{order.main} /{" "}
+                  {order.secondary}
                 </td>
                 <td>
                   {order.line_items.map((l) => (
