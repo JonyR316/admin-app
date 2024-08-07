@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/mongodb-adapter": "^3.2.0",
     "@aws-sdk/client-s3": "^3.608.0",
+    "admin-app": "file:",
     "axios": "^1.7.2",
     "mime-types": "^2.1.35",
     "mongodb": "^6.7.0",
@@ -20,6 +21,7 @@
     "next-auth": "^4.24.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
     "react-sortablejs": "^6.1.4",
     "react-spinners": "^0.14.1",
     "react-sweetalert2": "^0.6.0",
