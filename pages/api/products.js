@@ -9,19 +9,15 @@ export default async function handler(req, res) {
   await isAdminRequest(req, res);
 
   if (method === "GET") {
-    if (req.query?.id) {
-      res.json(await Product.findOne({ _id: req.query.id }));
-    } else {
-      res.json(await Product.find());
-    }
-  }
-
-  if (method === "GET") {
-    const { category } = req.query;
-    const filters = category ? { category } : {};
-
     try {
-      const products = await Product.find(filters);
+      let products;
+      if (req.query?.id) {
+        products = await Product.findOne({ _id: req.query.id });
+      } else if (req.query?.category) {
+        products = await Product.find({ category: req.query.category });
+      } else {
+        products = await Product.find();
+      }
       res.status(200).json(products);
     } catch (error) {
       res.status(500).json({ message: "Error fetching products" });
