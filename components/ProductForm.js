@@ -129,7 +129,7 @@ export default function ProductForm({
             </div>
           </div>
         ))}
-      <label>IMAGENES</label>
+      <label>IMAGEN</label>
       <div className="mb-2 flex flex-wrap gap-1">
         <ReactSortable
           list={images}
